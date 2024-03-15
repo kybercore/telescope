@@ -9,8 +9,8 @@ import (
 	"image/png"
 	"os"
 	"os/exec"
-	"telescope/internal/cli"
 	"path/filepath"
+	"telescope/internal/cli"
 )
 
 const LOADING_BAR = "█"
@@ -89,6 +89,8 @@ func CreateThumbPreview(config *cli.Config, tempFolder string, outputName string
 	}
 
 	// save the final image
+	fmt.Println("Temp folder:", tempFolder)
+	fmt.Println("Output name:", outputName)
 	finalImgPath := filepath.Join(tempFolder, outputName)
 	file, err := os.Create(finalImgPath)
 	if err != nil {

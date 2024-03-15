@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strings"
 	"path/filepath"
 )
 
@@ -17,9 +16,9 @@ func CreateOutputName(videoPath string, compress bool) string {
 	var outputName string
 	switch compress {
 	case true:
-		outputName = GetFilenameFromPath(videoPath) + "_preview.jpg"
+		outputName = filepath.Base(videoPath) + "_preview.jpg"
 	case false:
-		outputName = GetFilenameFromPath(videoPath) + "_preview.png"
+		outputName = filepath.Base(videoPath) + "_preview.png"
 	}
 	return outputName
 }
@@ -44,29 +43,25 @@ func CleanExit(tempFolder string) {
 	os.Exit(0)
 }
 
-func GetFilenameFromPath(path string) string {
-	return path[strings.LastIndex(path, "/")+1:]
-}
-
 func MoveFile(tempFolder, outputName string) error {
-    workingDir, _ := os.Getwd()
-    destination := filepath.Join(workingDir, outputName)
-    source := filepath.Join(tempFolder, outputName)
-    destinationFile, err := os.Create(destination)
-    if err != nil {
-        return err
-    }
-    defer destinationFile.Close()
+	workingDir, _ := os.Getwd()
+	destination := filepath.Join(workingDir, outputName)
+	source := filepath.Join(tempFolder, outputName)
+	destinationFile, err := os.Create(destination)
+	if err != nil {
+		return err
+	}
+	defer destinationFile.Close()
 
-    sourceFile, err := os.Open(source)
-    if err != nil {
-        return err
-    }
+	sourceFile, err := os.Open(source)
+	if err != nil {
+		return err
+	}
 
-    _, err = io.Copy(destinationFile, sourceFile)
-    if err != nil {
-        return err
-    }
+	_, err = io.Copy(destinationFile, sourceFile)
+	if err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }
