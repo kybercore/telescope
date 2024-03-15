@@ -38,7 +38,7 @@ func main() {
 	fmt.Printf(cli.INFO_FMT, "Creating preview image...")
 	err = video.CreateThumbPreview(config, tempFolder, outputName)
 	if err != nil {
-		fmt.Printf(cli.ERROR_FMT, err.Error())
+		fmt.Printf(cli.ERROR_FMT, "Failed to create preview image: "+err.Error())
 		util.CleanExit(tempFolder)
 	}
 

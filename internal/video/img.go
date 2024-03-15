@@ -10,11 +10,10 @@ import (
 	"os"
 	"os/exec"
 	"telescope/internal/cli"
+	"path/filepath"
 )
 
-const (
-	LOADING_BAR = "█"
-)
+const LOADING_BAR = "█"
 
 func ExtractThumbnails(config *cli.Config, tempFolder string) error {
 	// reference: ffmpeg -i input.mp4 -ss 00:00:03.2 -vframes 1 output.png
@@ -28,7 +27,7 @@ func ExtractThumbnails(config *cli.Config, tempFolder string) error {
 		if i == len(thumbPositions)-1 {
 			fmt.Printf("\n")
 		}
-		thumbPath := fmt.Sprintf("%s/thumb_%d.png", tempFolder, i+1)
+		thumbPath := filepath.Join(tempFolder, fmt.Sprintf("thumb_%d.png", i+1))
 		cmd := exec.Command(
 			"ffmpeg",
 			"-hide_banner",
@@ -63,7 +62,7 @@ func CreateThumbPreview(config *cli.Config, tempFolder string, outputName string
 	var decodedImages = make([]image.Image, 0, config.ThumbnailCount)
 
 	for i := 1; i <= config.ThumbnailCount; i++ {
-		thumbPath := fmt.Sprintf("%s/thumb_%d.png", tempFolder, i)
+		thumbPath := filepath.Join(tempFolder, fmt.Sprintf("thumb_%d.png", i))
 		img := openAndDecode(thumbPath)
 		if img != nil {
 			decodedImages = append(decodedImages, img)
@@ -90,7 +89,7 @@ func CreateThumbPreview(config *cli.Config, tempFolder string, outputName string
 	}
 
 	// save the final image
-	finalImgPath := fmt.Sprintf(outputName, tempFolder)
+	finalImgPath := filepath.Join(tempFolder, outputName)
 	file, err := os.Create(finalImgPath)
 	if err != nil {
 		return err
