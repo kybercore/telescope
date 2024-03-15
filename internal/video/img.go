@@ -89,8 +89,6 @@ func CreateThumbPreview(config *cli.Config, tempFolder string, outputName string
 	}
 
 	// save the final image
-	fmt.Println("Temp folder:", tempFolder)
-	fmt.Println("Output name:", outputName)
 	finalImgPath := filepath.Join(tempFolder, outputName)
 	file, err := os.Create(finalImgPath)
 	if err != nil {
