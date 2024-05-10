@@ -4,6 +4,8 @@
 
 Linux and Windows executables in the /bin folder. Just drop in a file, specify the number of thumbnails and whether to optimize for sharing online.
 
+Note that you need to have [ffmpeg](https://ffmpeg.org/download.html) installed/in your system path.
+
 Look into `internal/video` for the magic.
 
 Example output:
